@@ -1,20 +1,13 @@
 #include <iostream>
-#include <queue>
+#include "libFiles.h"
+#include "Huffman.h"
 using namespace std;
 
 int main()
 {
-	cout << 5;
+	fstream inFile("in.txt");
 
-
-
-
-
-
-
-
-
-
+	huffmanAlgorithm(inFile);
 
 
 

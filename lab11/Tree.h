@@ -57,7 +57,18 @@ public:
 	void TreeInOrderToFile(std::fstream &outFile, TreeElement *rt, int lvlOfRoot = 0);	//metoda rekurencyjna pomocnicza do zapisywania stanu drzewa do pliku
 };
 
+	class CompareTwoTrees
+	{
+	public:
+		bool operator()(Tree &tree_1, Tree &tree_2)
+		{
+			if (tree_1.getNumber() < tree_2.getNumber())
+				return false;
 
+			if (tree_1.getNumber() >= tree_2.getNumber())
+				return true;
+		}
+	};
 
 
 

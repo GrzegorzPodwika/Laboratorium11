@@ -115,10 +115,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Huffman.cpp" />
+    <ClCompile Include="libExceptions.cpp" />
+    <ClCompile Include="libFiles.cpp" />
     <ClCompile Include="Podwika_Grzegorz_Program_01.cpp" />
     <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Huffman.h" />
+    <ClInclude Include="libExceptions.h" />
+    <ClInclude Include="libFiles.h" />
     <ClInclude Include="Tree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
