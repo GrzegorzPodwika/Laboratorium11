@@ -2,6 +2,7 @@
 #define TREE_H
 #include <iostream>
 #include <fstream>
+#include <string>
 
 //Struktura imituj¹ca pojedynczy element drzewa
 struct TreeElement
@@ -16,19 +17,16 @@ struct TreeElement
 };
 
 //klasa imitujaca drzewo skladajaca sie z pojedynczych obiektow struktury TreeElement
-class Tree 
+class Tree
 {
 	TreeElement *root;			//wskaznik na korzen
-	TreeElement *lastLeaf;		//wskaznik na ostatni lisc
-	unsigned levelOfRoot;		//poziom drzewa liczony od góry
-
 
 public:
 
 	//konstruktor
-	Tree() : root{ nullptr }, lastLeaf{nullptr}, levelOfRoot{}
+	Tree() : root{ nullptr }
 	{}
-	
+
 	Tree(char lett, double numb);
 
 	//destruktor
@@ -36,46 +34,42 @@ public:
 
 	//metody publiczne
 	//metody dolaczajace do danego drzewa nastepny lisc
-	void push(char lett, double numb, int binCode_0_1);
-	void pushLeft(char lett, double numb, int binCode_0_1 = 0);
-	void pushRight(char lett, double numb, int binCode_0_1 = 1);
+	void pushLeft(Tree &leftChild);
+	void pushRight(Tree &rightChild);
 
-	void pop();																			//metoda wracajaca sie do rodzica ostatniego liscia
-	void showWholeTree();																//metoda pomocnicza pokazujaca stanm drzewa w danej chwilii
-	int size();																			//metoda zwracajaca rozmiar drzewa liczony od gory
+	void showWholeTree();																//metoda pomocnicza pokazujaca stan drzewa w danej chwilii
 
-	void setBinaryDigit(int binDigit);
-	int getBinaryDigit();
+	void setBinaryDigit(int binDigit);													//metoda ustanawiajaca liczbe w wezle na 0 lub 1
+	int getBinaryDigit();																//metoda zwracajaca liczbe 0 albo 1 z wezla
 
-	void setNumber(double numb);
-	double getNumber();
+	void setNumber(double numb);														//metoda ustawiajaca czestostliwosc/prawdopodobienstweo w wezle
+	double getNumber();																	//metoda zwracajaca czestostliwosc/prawdopodobienstweo z wezla
 
-	void TreeInorder(TreeElement *rt, int spaceBeetweenNodes, int lvlOfRoot = 0);		//metoda rekurencyjna pomocnicza do pokazywania drzewa na ekran
-	TreeElement* getLastLeaf();															//metoda zwracajaca ostatni lisc
+	void TreeInorder(TreeElement *rt, int spaceBeetweenNodes = 0, int lvlOfRoot = 0);	//metoda rekurencyjna pomocnicza do pokazywania drzewa na ekran
 
 	void saveDataToFile(std::fstream &outFile);											//metoda zapisujaca drzewo do pliku
 	void TreeInOrderToFile(std::fstream &outFile, TreeElement *rt, int lvlOfRoot = 0);	//metoda rekurencyjna pomocnicza do zapisywania stanu drzewa do pliku
+
+	void showHuffmanTree();																//metoda pokazujaca zakodowane litery algorytmem Huffmana
+	void huffmanTree(TreeElement *root, std::string str);								//metoda rekursywna pomocnicza do pokazywania liter algorytmu Huffmana
 };
 
-	class CompareTwoTrees
+//definicja funktora porownujacego dwa drzewa za pomoca wartosci w wezla, np. prawdopodobienstwa
+class CompareTwoTrees
+{
+public:
+	bool operator()(Tree &tree_1, Tree &tree_2)
 	{
-	public:
-		bool operator()(Tree &tree_1, Tree &tree_2)
-		{
-			if (tree_1.getNumber() < tree_2.getNumber())
-				return false;
+		if (tree_1.getNumber() < tree_2.getNumber())
+			return false;
 
-			if (tree_1.getNumber() >= tree_2.getNumber())
-				return true;
-		}
-	};
-
-
-
-
-
-
-
+		if (tree_1.getNumber() > tree_2.getNumber())
+			return true;
+		
+		//else tree_1.getNumber() == tree_2.getNumber()
+		return false;
+	}
+};
 
 
 #endif // !TREE_H

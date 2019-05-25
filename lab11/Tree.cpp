@@ -14,100 +14,30 @@ Tree::Tree(char lett, double numb)
 
 	nElem->parent = nullptr;
 	root = nElem;
-	lastLeaf = root;
 }
 
 Tree::~Tree()
 {}
 
-void Tree::push(char lett, double numb, int binCode_0_1)
+void Tree::pushLeft(Tree & leftChild)
 {
-	if (root == nullptr)
-	{
-		TreeElement *nElem = new TreeElement;
-		nElem->letter = lett;
-		nElem->number = numb;
-		nElem->zeroOneNumber = binCode_0_1;
+	leftChild.setBinaryDigit(0);
 
-		nElem->leftChild = nullptr;
-		nElem->rightChild = nullptr;
-
-		nElem->parent = nullptr;
-		root = nElem;
-		lastLeaf = root;
-	}
-	else
-	{
-		if (root != lastLeaf)
-		{
-			if (lastLeaf->leftChild == nullptr)
-				pushLeft(lett, numb, binCode_0_1);
-			else
-				pushRight(lett, numb, binCode_0_1);
-		}
-		else
-		{
-			if (lastLeaf->leftChild == nullptr)
-				pushLeft(lett, numb, binCode_0_1);
-			else
-				pushRight(lett, numb, binCode_0_1);
-		}
-
-	}
+	root->leftChild = leftChild.root;
+	leftChild.root->parent = root;
 }
 
-void Tree::pushLeft(char lett, double numb, int binCode_0_1)
+void Tree::pushRight(Tree & rightChild)
 {
-	TreeElement *nElem = new TreeElement;
-	nElem->letter = lett;
-	nElem->number = numb;
-	nElem->zeroOneNumber = binCode_0_1;
+	rightChild.setBinaryDigit(1);
 
-	nElem->leftChild = nullptr;
-	nElem->rightChild = nullptr;
-
-	nElem->parent = lastLeaf;
-	lastLeaf->leftChild = nElem;
-
-	lastLeaf = nElem;
-	levelOfRoot++;
-}
-
-void Tree::pushRight(char lett, double numb, int binCode_0_1)
-{
-	TreeElement *nElem = new TreeElement;
-	nElem->letter = lett;
-	nElem->number = numb;
-	nElem->zeroOneNumber = binCode_0_1;
-
-	nElem->leftChild = nullptr;
-	nElem->rightChild = nullptr;
-
-	nElem->parent = lastLeaf;
-	lastLeaf->rightChild = nElem;
-
-	lastLeaf = nElem;
-	levelOfRoot++;
-}
-
-void Tree::pop()
-{
-	if (root != nullptr)
-	{
-		TreeElement *tmp = lastLeaf;
-		lastLeaf = tmp->parent;
-		//delete tmp;
-		levelOfRoot--;
-	}
-	else
-	{
-		cout << "Drzewo jest pusta!" << endl;
-	}
+	root->rightChild = rightChild.root;
+	rightChild.root->parent = root;
 }
 
 void Tree::showWholeTree()
 {
-	TreeInorder(root, levelOfRoot);
+	TreeInorder(root);
 }
 
 void Tree::TreeInorder(TreeElement * rt, int spaceBeetweenNodes, int lvlOfRoot)
@@ -142,12 +72,6 @@ void Tree::TreeInorder(TreeElement * rt, int spaceBeetweenNodes, int lvlOfRoot)
 	}
 }
 
-TreeElement * Tree::getLastLeaf()
-{
-	return lastLeaf;
-}
-
-
 
 
 void Tree::saveDataToFile(std::fstream &outFile)
@@ -169,27 +93,38 @@ void Tree::TreeInOrderToFile(std::fstream & outFile, TreeElement * rt, int lvlOf
 }
 
 
-int Tree::size()
+void Tree::showHuffmanTree()
 {
-	return levelOfRoot;
+	huffmanTree(root, "");
+}
+
+void Tree::huffmanTree(TreeElement * root, std::string str)
+{
+	if (!root->leftChild) cout << root->letter << " " << str << endl;
+	else
+	{
+		huffmanTree(root->leftChild, str + "0");
+		huffmanTree(root->rightChild, str + "1");
+	}
 }
 
 void Tree::setBinaryDigit(int binDigit)
 {
-	lastLeaf->zeroOneNumber = binDigit;
+	root->zeroOneNumber = binDigit;
 }
 
 int Tree::getBinaryDigit()
 {
-	return lastLeaf->zeroOneNumber;
+	return root->zeroOneNumber;
 }
 
 void Tree::setNumber(double numb)
 {
-	lastLeaf->number = numb;
+	root->number = numb;
 }
 
 double Tree::getNumber()
 {
-	return lastLeaf->number;
+	return root->number;
 }
+

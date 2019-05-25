@@ -5,22 +5,38 @@ void huffmanAlgorithm(std::fstream & inFile)
 {
 	char let{};
 	double numb{};
+	vector <char> letters;
+	vector <double> numbers;
 
 	priority_queue <Tree, vector<Tree>, CompareTwoTrees> queue;
 
 	while (!inFile.eof())
 	{
 		inFile >> let >> numb;
-
+		letters.push_back(let);
+		numbers.push_back(numb);
 		queue.push(Tree(let, numb));
 	}
 
 	show_pq(queue);
+	Tree tmp1{}, tmp2{};
 
 	while (queue.size() != 1)
 	{
+		tmp1 = queue.top();
+		queue.pop();
+
+		tmp2 = queue.top();
+		queue.pop();
+
+		queue.push(createParentOfChildren(tmp1, tmp2));
 
 	}
+
+	Tree mainTree = queue.top();
+
+	mainTree.showWholeTree();
+	mainTree.showHuffmanTree();
 }
 
 void show_pq(priority_queue <Tree, vector<Tree>, CompareTwoTrees> gq)
@@ -33,4 +49,16 @@ void show_pq(priority_queue <Tree, vector<Tree>, CompareTwoTrees> gq)
 		g.pop();
 	}
 }
+
+Tree createParentOfChildren(Tree &leftChild, Tree &rightChild)
+{
+	Tree parent('-', leftChild.getNumber()+rightChild.getNumber());
+
+	parent.pushLeft(leftChild);
+	parent.pushRight(rightChild);
+
+	return parent;
+}
+
+
 

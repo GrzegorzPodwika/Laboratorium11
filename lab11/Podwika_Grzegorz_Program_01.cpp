@@ -5,11 +5,8 @@ using namespace std;
 
 int main()
 {
-	fstream inFile("in.txt");
-
+	fstream inFile = createInputFile();
 	huffmanAlgorithm(inFile);
-
-
 
 	getchar();
 	getchar();
