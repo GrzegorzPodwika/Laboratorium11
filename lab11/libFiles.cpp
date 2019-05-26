@@ -56,12 +56,12 @@ fstream createInputFile()
 				return rFile;
 			}
 			else{
-				throw EXCEPTION_CODE::openError;
+				throw MyRuntimeExceptions::FileOpenException();
 			}
 		}
-		catch (EXCEPTION_CODE error)
+		catch (const std::exception &e)
 		{
-			seeExceptions(error);
+			cerr << e.what();
 			cout << endl << "Podaj nazwe pliku do odczytu z rozszerzeniem .txt  ";
 			loadCorrectFileName(fileName);
 		}
@@ -89,12 +89,12 @@ fstream createOutputFile()
 			}
 			else
 			{
-				throw EXCEPTION_CODE::readError;
+				throw MyRuntimeExceptions::FileOpenException();
 			}
 		}
-		catch (EXCEPTION_CODE error)
+		catch (const std::exception &e)
 		{
-			seeExceptions(error);
+			cerr << e.what();
 			cout << endl << "Podaj nazwe pliku do zapisu z rozszerzeniem .txt  ";
 			loadCorrectFileName(fileName);
 		}

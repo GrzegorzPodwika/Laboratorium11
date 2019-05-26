@@ -8,9 +8,10 @@
 
 /*
 Glowna funkcja obliczajaca dla wartosci z pliku inFile konwertujaca na kod binarny dane litery algorytmem Huffmana
-@param inFile plik do odczytu z wartosciami czestostliwosci lub prawdopodobienstwa danych liter
+@param letters przyslane litery do zakodowania
+@param numbers przyslane czestotliwosci/prawdopodobienstwo z jakim nalezy zakodowac litery
 */
-void huffmanAlgorithm(std::fstream &inFile);
+void huffmanAlgorithm(std::vector <char> &letters, std::vector <double> &numbers);
 
 /*
 Funkcja pomocnicza pokazujaca kolejke na ekran

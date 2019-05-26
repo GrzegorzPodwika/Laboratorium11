@@ -1,24 +1,15 @@
 #include "Huffman.h"
 using namespace std;
 
-void huffmanAlgorithm(std::fstream & inFile)
+void huffmanAlgorithm(vector <char> &letters, vector <double> &numbers)
 {
-	char let{};
-	double numb{};
-	vector <char> letters;
-	vector <double> numbers;
-
 	priority_queue <Tree, vector<Tree>, CompareTwoTrees> queue;
 
-	while (!inFile.eof())
+	for (int i = 0; i < letters.size(); i++)
 	{
-		inFile >> let >> numb;
-		letters.push_back(let);
-		numbers.push_back(numb);
-		queue.push(Tree(let, numb));
+		queue.push(Tree(letters[i], numbers[i]));
 	}
 
-	show_pq(queue);
 	Tree tmp1{}, tmp2{};
 
 	while (queue.size() != 1)
@@ -30,7 +21,6 @@ void huffmanAlgorithm(std::fstream & inFile)
 		queue.pop();
 
 		queue.push(createParentOfChildren(tmp1, tmp2));
-
 	}
 
 	Tree mainTree = queue.top();
